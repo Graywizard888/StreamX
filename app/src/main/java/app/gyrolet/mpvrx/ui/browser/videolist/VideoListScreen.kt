@@ -763,6 +763,21 @@ private fun VideoListContent(
         }
       }
 
+      // Eager prefetch: fires the moment a folder is opened (independent of layout/scroll state)
+      // so thumbnails start loading without requiring the user to scroll first.
+      LaunchedEffect(folderId, showVideoThumbnails, thumbWidthPx, thumbHeightPx, videosWithInfo.size) {
+        if (showVideoThumbnails && videosWithInfo.isNotEmpty() && thumbWidthPx > 0 && thumbHeightPx > 0) {
+          val eagerCount = if (mediaLayoutMode == MediaLayoutMode.GRID) videoGridColumns * 6 else 24
+          val firstBatch = videosWithInfo.take(eagerCount).map { it.video }
+          thumbnailRepository.startFolderThumbnailGeneration(
+            folderId = folderId,
+            videos = firstBatch,
+            widthPx = thumbWidthPx,
+            heightPx = thumbHeightPx,
+          )
+        }
+      }
+
       FabScrollHelper.trackScrollForFabVisibility(
         listState = listState,
         gridState = if (mediaLayoutMode == MediaLayoutMode.GRID) gridState else null,
