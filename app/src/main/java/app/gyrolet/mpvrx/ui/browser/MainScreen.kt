@@ -115,9 +115,9 @@ object MainScreen : Screen {
     val showRecentsTab by appearancePreferences.showRecentsTab.collectAsState()
     val showPlaylistsTab by appearancePreferences.showPlaylistsTab.collectAsState()
     val showNetworkTab by appearancePreferences.showNetworkTab.collectAsState()
-    val hideNavigationBar = NavigationBarState.shouldHideNavigationBar
-    val isPermissionDenied = NavigationBarState.isPermissionDenied
-    
+    // NavigationBarState reads moved into the bottomBar lambda below so flag changes
+    // do not recompose the entire screen (tab content stays stable).
+
     val visibleTabs = remember(
       showHomeTab,
       showRecentsTab,
@@ -149,6 +149,9 @@ object MainScreen : Screen {
     Scaffold(
       modifier = Modifier.fillMaxSize(),
       bottomBar = {
+        // Reading these here keeps recomposition scoped to the bottomBar slot.
+        val hideNavigationBar = NavigationBarState.shouldHideNavigationBar
+        val isPermissionDenied = NavigationBarState.isPermissionDenied
         // Animated bottom navigation bar with slide animations
         AnimatedVisibility(
           visible = !hideNavigationBar && visibleTabs.isNotEmpty() && !isPermissionDenied,
