@@ -14,6 +14,7 @@ import coil3.disk.directory
 import coil3.network.okhttp.OkHttpNetworkFetcherFactory
 import coil3.request.CachePolicy
 import coil3.request.crossfade
+import okhttp3.ConnectionPool
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okio.FileSystem
@@ -23,10 +24,13 @@ import java.util.concurrent.TimeUnit
 
 val domainModule = module {
     single {
+        // Smaller pool + shorter keep-alive than OkHttp defaults (5 conns / 5 min idle).
+        // Releases the radio sooner on mobile -> better battery on flaky networks.
         OkHttpClient.Builder()
             .connectTimeout(30, TimeUnit.SECONDS)
             .readTimeout(30, TimeUnit.SECONDS)
             .writeTimeout(30, TimeUnit.SECONDS)
+            .connectionPool(ConnectionPool(maxIdleConnections = 4, keepAliveDuration = 90, TimeUnit.SECONDS))
             .cookieJar(AndroidCookieJar())
             .build()
     }
@@ -35,8 +39,9 @@ val domainModule = module {
         val browserPreferences = get<BrowserPreferences>()
 
         val imageHttpClient = OkHttpClient.Builder()
-            .connectTimeout(30, TimeUnit.SECONDS)
-            .readTimeout(30, TimeUnit.SECONDS)
+            .connectTimeout(15, TimeUnit.SECONDS)
+            .readTimeout(15, TimeUnit.SECONDS)
+            .connectionPool(ConnectionPool(maxIdleConnections = 3, keepAliveDuration = 60, TimeUnit.SECONDS))
             .addInterceptor(Interceptor { chain ->
                 val original = chain.request()
                 val host = original.url.host
