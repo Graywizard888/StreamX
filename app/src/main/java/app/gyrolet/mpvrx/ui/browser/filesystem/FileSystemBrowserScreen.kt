@@ -1255,6 +1255,19 @@ private fun FileSystemBrowserContent(
         }
       }
 
+      // Eager prefetch: starts generating thumbnails immediately when a folder is entered,
+      // without waiting for the user to scroll the lazy list.
+      LaunchedEffect(folderId, showVideoThumbnails, thumbWidthPx, thumbHeightPx, videos.size) {
+        if (showVideoThumbnails && videos.isNotEmpty() && thumbWidthPx > 0 && thumbHeightPx > 0) {
+          thumbnailRepository.startFolderThumbnailGeneration(
+            folderId = folderId,
+            videos = videos.take(30),
+            widthPx = thumbWidthPx,
+            heightPx = thumbHeightPx,
+          )
+        }
+      }
+
       // Check if at top of list to hide scrollbar during pull-to-refresh
       val isAtTop by remember {
         derivedStateOf {
