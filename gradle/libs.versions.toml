@@ -5,18 +5,18 @@ smbj = "0.14.0"
 kotlin = "2.3.10"
 composeBom = "2026.04.01"
 activityCompose = "1.13.0"
-koin = "4.1.1"
+koin = "4.2.1"
 lazycolumnscrollbar = "2.2.0"
 nanohttpd = "2.3.1"
 room = "2.8.4"
 navigation3 = "1.1.1"
-kotlinx-serialization = "1.10.0"
+kotlinx-serialization = "1.11.0"
 kotlinx-collections-immutable = "0.4.0"
 truetype-parser = "2.1.4"
 accompanist = "0.37.3"
 okhttp = "5.3.2"
 sardineAndroid = "0.9"
-reorderable = "3.0.0"
+reorderable = "3.1.0"
 googleMaterial = "1.13.0"
 androidxCore = "1.18.0"
 androidxPreference = "1.2.1"
@@ -73,7 +73,7 @@ koin-android = { module = "io.insert-koin:koin-android" }
 koin-compose = { module = "io.insert-koin:koin-compose" }
 koin-viewmodel = { module = "io.insert-koin:koin-compose-viewmodel" }
 
-compose-prefs = { module = "me.zhanghai.compose.preference:preference", version = "2.1.1" }
+compose-prefs = { module = "me.zhanghai.compose.preference:preference", version = "2.2.0" }
 
 room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
 room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
