@@ -530,6 +530,18 @@ private fun RecentItemsContent(
     }
   }
 
+  // Eager prefetch on screen open — starts loading thumbnails before any scroll happens.
+  LaunchedEffect(showVideoThumbnails, thumbWidthPx, thumbHeightPx, recentVideos.size) {
+    if (showVideoThumbnails && recentVideos.isNotEmpty() && thumbWidthPx > 0 && thumbHeightPx > 0) {
+      thumbnailRepository.startFolderThumbnailGeneration(
+        folderId = "recently_played",
+        videos = recentVideos.take(24),
+        widthPx = thumbWidthPx,
+        heightPx = thumbHeightPx,
+      )
+    }
+  }
+
   val isAtTop by remember {
     derivedStateOf {
       if (isGridMode) {
