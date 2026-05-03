@@ -161,7 +161,7 @@ kotlin {
 }
 
 composeCompiler {
-  includeSourceInformation = true
+  includeSourceInformation = false
 }
 
 room {
