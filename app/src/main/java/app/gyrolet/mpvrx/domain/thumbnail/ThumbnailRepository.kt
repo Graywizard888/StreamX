@@ -1,11 +1,13 @@
 package app.gyrolet.mpvrx.domain.thumbnail
 
+import android.app.ActivityManager
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Matrix
 import android.media.MediaMetadataRetriever
 import android.os.Build
+import android.os.PowerManager
 import android.util.LruCache
 import app.gyrolet.mpvrx.domain.media.model.Video
 import coil3.ImageLoader
@@ -49,7 +51,13 @@ class ThumbnailRepository(
   private val memoryCache: LruCache<String, Bitmap>
   private val ongoingOperations = ConcurrentHashMap<String, Deferred<Bitmap?>>()
   private val repositoryScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
-  private val maxConcurrentFolders = 3
+
+  private val powerManager: PowerManager? =
+    context.getSystemService(Context.POWER_SERVICE) as? PowerManager
+
+  // Drop concurrent prefetch jobs to 1 in battery-saver mode; otherwise 3.
+  private val maxConcurrentFolders: Int
+    get() = if (powerManager?.isPowerSaveMode == true) 1 else 3
 
   private data class FolderState(
     val signature: String,
@@ -67,7 +75,11 @@ class ThumbnailRepository(
 
   init {
     val maxMemoryKb = (Runtime.getRuntime().maxMemory() / 1024L).toInt()
-    val cacheSizeKb = maxMemoryKb / 6
+    // Halve the cache budget on low-RAM devices to avoid OOM / GC churn.
+    val activityManager = context.getSystemService(Context.ACTIVITY_SERVICE) as? ActivityManager
+    val isLowRam = activityManager?.isLowRamDevice == true
+    val divisor = if (isLowRam) 12 else 6
+    val cacheSizeKb = maxMemoryKb / divisor
     memoryCache =
       object : LruCache<String, Bitmap>(cacheSizeKb) {
         override fun sizeOf(
