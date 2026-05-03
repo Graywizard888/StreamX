@@ -1,26 +1,26 @@
 [versions]
-agp = "9.0.1"
-commonsNet = "3.12.0"
+agp = "9.2.0"
+commonsNet = "3.13.0"
 smbj = "0.14.0"
 kotlin = "2.3.10"
-composeBom = "2026.02.01"
-activityCompose = "1.12.4"
+composeBom = "2026.04.01"
+activityCompose = "1.13.0"
 koin = "4.1.1"
 lazycolumnscrollbar = "2.2.0"
 nanohttpd = "2.3.1"
 room = "2.8.4"
-navigation3 = "1.0.1"
+navigation3 = "1.1.1"
 kotlinx-serialization = "1.10.0"
 kotlinx-collections-immutable = "0.4.0"
 truetype-parser = "2.1.4"
 accompanist = "0.37.3"
 okhttp = "5.3.2"
-sardineAndroid = "0.8"
+sardineAndroid = "0.9"
 reorderable = "3.0.0"
 googleMaterial = "1.13.0"
-androidxCore = "1.17.0"
+androidxCore = "1.18.0"
 androidxPreference = "1.2.1"
-androidxConstraintLayout = "2.2.0"
+androidxConstraintLayout = "2.2.1"
 coil = "3.4.0"
 media3 = "1.10.0"
 soraEditor = "0.24.5"
@@ -38,14 +38,14 @@ androidx-ui = { group = "androidx.compose.ui", name = "ui" }
 androidx-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
 androidx-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
 androidx-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
-androidx-material3-android = { group = "androidx.compose.material3", name = "material3", version = "1.5.0-alpha15" }
+androidx-material3-android = { group = "androidx.compose.material3", name = "material3", version = "1.5.0-alpha18" }
 androidx-compose-material = { group = "androidx.compose.material", name = "material" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version = "1.7.1" }
 composables-material-symbols-rounded-filled-android = { module = "com.composables:icons-material-symbols-rounded-filled-android", version = "2.2.1" }
 composables-material-symbols-rounded-filled-cmp = { module = "com.composables:icons-material-symbols-rounded-filled-cmp-jvm", version = "2.2.1" }
 androidx-compose-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout-compose", version = "1.1.1" }
 androidx-compose-animation-graphics = { group = "androidx.compose.animation", name = "animation-graphics-android" }
-mediasession = { group = "androidx.media", name = "media", version = "1.7.1" }
+mediasession = { group = "androidx.media", name = "media", version = "1.8.0-rc01" }
 androidx-navigation3-runtime = { module = "androidx.navigation3:navigation3-runtime", version.ref = "navigation3" }
 androidx-navigation3-ui = { module = "androidx.navigation3:navigation3-ui", version.ref = "navigation3" }
 androidx-documentfile = { group = "androidx.documentfile", name = "documentfile", version = "1.1.0" }
